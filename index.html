@@ -73,6 +73,35 @@
       background-clip: text;
     }
 
+    .header-fav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+    }
+
+    .header-fav-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .header-fav-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .header-fav-odd {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--green);
+    }
+
     .live-badge {
       display: flex;
       align-items: center;
@@ -696,6 +725,163 @@
       text-align: center;
     }
 
+    /* COUNTDOWN */
+    .countdown-wrap {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .countdown-blocks {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .cd-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      min-width: 52px;
+    }
+
+    .cd-num {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent2);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cd-unit {
+      font-size: 9px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .cd-sep {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .cd-block.urgent .cd-num {
+      color: var(--accent2);
+      animation: urgentPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes urgentPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ODDS MOVEMENT */
+    .card-odd-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .odd-move {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .odd-move.up {
+      color: #ff6b6b;
+      background: rgba(255, 107, 107, 0.12);
+    }
+
+    .odd-move.down {
+      color: var(--green);
+      background: rgba(0, 212, 170, 0.12);
+    }
+
+    .odd-move.neutral {
+      color: var(--muted);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .card-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .badge-fav {
+      background: rgba(0, 212, 170, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+    }
+
+    .badge-zebra {
+      background: rgba(255, 101, 132, 0.12);
+      color: var(--accent2);
+      border: 1px solid rgba(255, 101, 132, 0.3);
+    }
+
+    .badge-mid {
+      background: rgba(245, 166, 35, 0.1);
+      color: var(--yellow);
+      border: 1px solid rgba(245, 166, 35, 0.25);
+    }
+
+    .card-prob {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .card-prob span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .card-bets {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .card-bets span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    @keyframes flashGreen {
+      0% { box-shadow: 0 0 0 0 rgba(0,212,170,0.5); }
+      50% { box-shadow: 0 0 0 6px rgba(0,212,170,0.15); }
+      100% { box-shadow: none; }
+    }
+
+    .flash-update {
+      animation: flashGreen 0.5s ease;
+    }
+
     /* RESPONSIVE */
     @media (max-width: 600px) {
       header { padding: 14px 18px; }
@@ -703,6 +889,9 @@
       .event-title { font-size: 20px; }
       .bet-form { grid-template-columns: 1fr; }
       .event-stats { gap: 20px; }
+      .countdown-blocks { gap: 5px; }
+      .cd-block { min-width: 44px; padding: 5px 8px; }
+      .cd-num { font-size: 18px; }
     }
   </style>
 </head>
@@ -712,6 +901,11 @@
   <div class="logo">
     <div class="logo-icon">&#127922;</div>
     <h1>OdontoBet</h1>
+  </div>
+  <div id="headerFav" class="header-fav" style="display:none">
+    <span class="header-fav-label">Favorito</span>
+    <span class="header-fav-name" id="headerFavName">-</span>
+    <span class="header-fav-odd" id="headerFavOdd">-</span>
   </div>
   <div class="live-badge">
     <div class="live-dot"></div>
@@ -729,7 +923,7 @@
     <div class="event-stats">
       <div class="stat">
         <span class="stat-label">Total Apostado</span>
-        <span class="stat-value" id="totalPool">R$ 0</span>
+        <span class="stat-value" id="totalPool">R$ 0,00</span>
       </div>
       <div class="stat">
         <span class="stat-label">Apostas Realizadas</span>
@@ -738,6 +932,18 @@
       <div class="stat">
         <span class="stat-label">Participantes</span>
         <span class="stat-value accent">4</span>
+      </div>
+    </div>
+    <div class="countdown-wrap">
+      <span class="countdown-label">Encerra em</span>
+      <div class="countdown-blocks">
+        <div class="cd-block" id="cd-d"><span class="cd-num" id="cd-days">--</span><span class="cd-unit">dias</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-block" id="cd-h"><span class="cd-num" id="cd-hours">--</span><span class="cd-unit">horas</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-block" id="cd-m"><span class="cd-num" id="cd-mins">--</span><span class="cd-unit">min</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-block" id="cd-s"><span class="cd-num" id="cd-secs">--</span><span class="cd-unit">seg</span></div>
       </div>
     </div>
   </div>
@@ -820,61 +1026,100 @@
 
 <script>
   // ─── STATE ───────────────────────────────────────────────────────────────────
+  // Pesos calibrados para OVERROUND=10%:
+  // sum=99 → Bruno≈2.48x, Igor≈2.97x, Thiago≈4.95x, Thomas≈5.94x
   const participants = [
-    {
-      id: 'thiago',
-      name: 'Thiago',
-      cssClass: 'p-thiago',
-      color: '#00d4aa',
-      initial: 1.55,
-      weight: 100,   // initial implied pool weight
-    },
-    {
-      id: 'thomas',
-      name: 'Thomas',
-      cssClass: 'p-thomas',
-      color: '#f5a623',
-      initial: 1.80,
-      weight: 80,
-    },
     {
       id: 'bruno',
       name: 'Bruno',
       cssClass: 'p-bruno',
       color: '#a89fff',
-      initial: 2.40,
-      weight: 55,
+      weight: 36,
     },
     {
       id: 'igor',
       name: 'Igor',
       cssClass: 'p-igor',
       color: '#ff6584',
-      initial: 3.10,
-      weight: 40,
+      weight: 30,
+    },
+    {
+      id: 'thiago',
+      name: 'Thiago',
+      cssClass: 'p-thiago',
+      color: '#00d4aa',
+      weight: 18,
+    },
+    {
+      id: 'thomas',
+      name: 'Thomas',
+      cssClass: 'p-thomas',
+      color: '#f5a623',
+      weight: 15,
     },
   ];
 
   let selectedId = null;
   const betHistory = [];
 
+  // ─── PERSISTÊNCIA ────────────────────────────────────────────────────────────
+  function saveState() {
+    const state = {
+      bets: betHistory.map(b => ({
+        bettor: b.bettor,
+        participantId: b.participant.id,
+        amount: b.amount,
+        odd: b.odd,
+        time: b.time.toISOString(),
+      })),
+      pools: participants.map(p => ({ id: p.id, totalBet: p.totalBet || 0 })),
+    };
+    try { localStorage.setItem('odontobet', JSON.stringify(state)); } catch(e) {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem('odontobet');
+      if (!raw) return;
+      const state = JSON.parse(raw);
+      // Restaura pools
+      state.pools.forEach(s => {
+        const p = participants.find(x => x.id === s.id);
+        if (p) p.totalBet = s.totalBet;
+      });
+      // Restaura histórico
+      state.bets.forEach(b => {
+        const p = participants.find(x => x.id === b.participantId);
+        if (!p) return;
+        betHistory.push({ bettor: b.bettor, participant: p, amount: b.amount, odd: b.odd, time: new Date(b.time) });
+      });
+    } catch(e) {}
+  }
+
   // ─── ODDS CALCULATION ────────────────────────────────────────────────────────
-  // Odds are computed from the simulated pool (initial weights + actual bets)
-  // House margin: 8%
-  const MARGIN = 0.08;
+  // Pool = peso inicial (liquidez simulada) + apostas reais
+  // Overround (margem da banca): 10%
+  // Probabilidade implícita = pool_i / total_pool
+  // Odd justa = 1 / prob; Odd real = odd_justa * (1 - overround)
+  // Arredondamento para 2 casas com piso de 1.01
+  const OVERROUND = 0.10;
 
   function getPool(p) {
     return p.weight + (p.totalBet || 0);
   }
 
   function computeOdds() {
+    // Salva odds anteriores para indicador de movimento
+    participants.forEach(p => { p.prevOdd = p.odd || null; });
+
     const total = participants.reduce((s, p) => s + getPool(p), 0);
     participants.forEach(p => {
-      const impliedProb = getPool(p) / total;
-      // Raw fair odd = 1/prob, apply margin (reduce payout)
-      const rawOdd = 1 / impliedProb;
-      p.odd = +(rawOdd * (1 - MARGIN)).toFixed(2);
-      p.share = +(impliedProb * 100).toFixed(1);
+      const prob = getPool(p) / total;
+      p.impliedProb = prob;
+      // Odd com margem, mínimo 1.01
+      const raw = (1 / prob) * (1 - OVERROUND);
+      p.odd = Math.max(1.01, Math.round(raw * 100) / 100);
+      p.share = Math.round(prob * 1000) / 10; // 1 casa decimal
     });
   }
 
@@ -882,37 +1127,84 @@
   function renderCards() {
     computeOdds();
     const grid = document.getElementById('participantsGrid');
-    grid.innerHTML = '';
 
-    // Sort by share descending for bar display
     const maxShare = Math.max(...participants.map(p => p.share));
+    const minOdd   = Math.min(...participants.map(p => p.odd));
+    const maxOdd   = Math.max(...participants.map(p => p.odd));
 
     participants.forEach(p => {
       const isSelected = p.id === selectedId;
-      const card = document.createElement('div');
+      const barWidth   = ((p.share / maxShare) * 100).toFixed(1);
+
+      // Movimento de odds
+      let moveHtml = '';
+      if (p.prevOdd !== null && p.prevOdd !== undefined) {
+        const diff = p.odd - p.prevOdd;
+        if (Math.abs(diff) >= 0.01) {
+          if (diff > 0) moveHtml = `<span class="odd-move up">▲ +${diff.toFixed(2)}</span>`;
+          else          moveHtml = `<span class="odd-move down">▼ ${diff.toFixed(2)}</span>`;
+        } else {
+          moveHtml = `<span class="odd-move neutral">—</span>`;
+        }
+      } else {
+        moveHtml = `<span class="odd-move neutral">—</span>`;
+      }
+
+      // Badge
+      let badgeHtml = '';
+      if (p.odd === minOdd)      badgeHtml = `<span class="card-badge badge-fav">Favorito</span>`;
+      else if (p.odd === maxOdd) badgeHtml = `<span class="card-badge badge-zebra">Zebra</span>`;
+      else                       badgeHtml = `<span class="card-badge badge-mid">Candidato</span>`;
+
+      // Numero de apostas neste participante
+      const betCount = betHistory.filter(b => b.participant.id === p.id).length;
+      const betTotal = p.totalBet ? `R$ ${p.totalBet.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}` : 'R$ 0,00';
+
+      const initials = p.name[0].toUpperCase();
+
+      // Verifica se o card já existe para animação de flash
+      let card = grid.querySelector(`[data-id="${p.id}"]`);
+      const isNew = !card;
+      if (isNew) {
+        card = document.createElement('div');
+        grid.appendChild(card);
+      }
+
       card.className = `participant-card ${p.cssClass}${isSelected ? ' selected' : ''}`;
       card.setAttribute('data-id', p.id);
       card.onclick = () => selectParticipant(p.id);
 
-      const initials = p.name[0].toUpperCase();
-      const barWidth = ((p.share / maxShare) * 100).toFixed(1);
-
       card.innerHTML = `
+        ${badgeHtml}
         <div class="card-avatar">${initials}</div>
         <div class="card-name">${p.name}</div>
-        <div class="card-role">Participante</div>
-        <div class="card-odd">
-          <span class="odd-label">ODD</span>
-          &nbsp;
-          <span class="odd-value">${p.odd.toFixed(2)}x</span>
+        <div class="card-odd-row">
+          <div class="card-odd">
+            <span class="odd-label">ODD</span>&nbsp;
+            <span class="odd-value">${p.odd.toFixed(2)}x</span>
+          </div>
+          ${moveHtml}
         </div>
+        <div class="card-prob">Prob. implícita: <span>${p.share}%</span></div>
         <div class="card-bar-wrap">
           <div class="card-bar" style="width:${barWidth}%"></div>
         </div>
-        <div class="card-share">Apostas: <span>${p.share}%</span> do pool</div>
+        <div class="card-bets">Apostas: <span>${betCount}</span> &nbsp;|&nbsp; Total: <span>${betTotal}</span></div>
       `;
-      grid.appendChild(card);
+
+      if (!isNew) {
+        card.classList.remove('flash-update');
+        void card.offsetWidth;
+        card.classList.add('flash-update');
+      }
     });
+
+    // Atualiza favorito no header
+    const fav = participants.reduce((a, b) => a.odd < b.odd ? a : b);
+    document.getElementById('headerFav').style.display = 'flex';
+    document.getElementById('headerFavName').textContent = fav.name;
+    document.getElementById('headerFavName').style.color = fav.color;
+    document.getElementById('headerFavOdd').textContent = `${fav.odd.toFixed(2)}x`;
   }
 
   function selectParticipant(id) {
@@ -994,6 +1286,7 @@
     updateSelInfo();
     renderHistory();
     showToast(name, p.name, amount, oddSnap);
+    saveState();
 
     // Reset form
     document.getElementById('betAmount').value = '';
@@ -1078,6 +1371,45 @@
     }
   }
 
+  // ─── COUNTDOWN ───────────────────────────────────────────────────────────────
+  function getNextFriday23() {
+    const now = new Date();
+    const target = new Date(now);
+    // Dia da semana: 0=Dom 1=Seg ... 5=Sex 6=Sáb
+    const day = now.getDay();
+    const daysUntilFriday = ((5 - day) + 7) % 7 || 7; // se hoje é sexta mas já passou das 23h, pega próxima
+    target.setDate(now.getDate() + daysUntilFriday);
+    target.setHours(23, 0, 0, 0);
+    // Se já passou das 23h desta sexta, avança 7 dias
+    if (target <= now) target.setDate(target.getDate() + 7);
+    return target;
+  }
+
+  function updateCountdown() {
+    const now    = new Date();
+    const target = getNextFriday23();
+    let diff     = Math.max(0, Math.floor((target - now) / 1000));
+
+    const d = Math.floor(diff / 86400);
+    diff -= d * 86400;
+    const h = Math.floor(diff / 3600);
+    diff -= h * 3600;
+    const m = Math.floor(diff / 60);
+    const s = diff - m * 60;
+
+    const pad = n => String(n).padStart(2, '0');
+    document.getElementById('cd-days').textContent = d;
+    document.getElementById('cd-hours').textContent = pad(h);
+    document.getElementById('cd-mins').textContent  = pad(m);
+    document.getElementById('cd-secs').textContent  = pad(s);
+
+    // Urgente: menos de 1 hora
+    const urgent = d === 0 && h === 0;
+    ['cd-d','cd-h','cd-m','cd-s'].forEach(id => {
+      document.getElementById(id).classList.toggle('urgent', urgent);
+    });
+  }
+
   // ─── INIT ────────────────────────────────────────────────────────────────────
   function copyPix() {
     const key = '32988171793';
@@ -1095,9 +1427,21 @@
   document.getElementById('bettorName').addEventListener('input', validateBet);
   document.getElementById('betAmount').addEventListener('input', () => { updatePayout(); validateBet(); });
 
+  loadState();
   computeOdds();
   renderCards();
+
+  // Atualiza totais do banner se houver apostas salvas
+  const restoredPool = participants.reduce((s, x) => s + (x.totalBet || 0), 0);
+  if (restoredPool > 0) {
+    document.getElementById('totalPool').textContent = `R$ ${restoredPool.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+    document.getElementById('totalBets').textContent = betHistory.length;
+    renderHistory();
+  }
+
   generatePixQr();
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
 </script>
 
 </body>
