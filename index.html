@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OdontoBet - Role da Faculdade</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a24;
+      --surface2: #22222f;
+      --border: #2e2e3e;
+      --accent: #6c63ff;
+      --accent2: #ff6584;
+      --green: #00d4aa;
+      --yellow: #f5a623;
+      --text: #e8e8f0;
+      --muted: #7a7a99;
+      --radius: 14px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1a1a24 0%, #16162a 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo h1 {
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a89fff, #ff6584);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 212, 170, 0.12);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      color: var(--green);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* EVENT BANNER */
+    .event-banner {
+      background: linear-gradient(135deg, #1e1e30 0%, #252535 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(108, 99, 255, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .event-tag {
+      display: inline-block;
+      background: rgba(108, 99, 255, 0.15);
+      border: 1px solid rgba(108, 99, 255, 0.4);
+      color: #a89fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .event-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .event-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .event-stats {
+      display: flex;
+      gap: 28px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .stat-value.accent {
+      color: #a89fff;
+    }
+
+    /* PARTICIPANTS GRID */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .participants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .participant-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .participant-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(108, 99, 255, 0.15);
+    }
+
+    .participant-card.selected {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, #1e1e30, #22223a);
+      box-shadow: 0 0 0 2px rgba(108, 99, 255, 0.3), 0 8px 32px rgba(108, 99, 255, 0.2);
+    }
+
+    .participant-card.selected::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
+    .card-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      position: relative;
+    }
+
+    .card-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .card-role {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .card-odd {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+
+    .odd-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .odd-value {
+      font-size: 28px;
+      font-weight: 800;
+      transition: all 0.3s ease;
+    }
+
+    .card-bar-wrap {
+      background: var(--bg);
+      border-radius: 4px;
+      height: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .card-bar {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .card-share {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .card-share span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Colors per participant */
+    .p-thiago .card-avatar { background: rgba(0, 212, 170, 0.15); color: var(--green); }
+    .p-thiago .odd-value { color: var(--green); }
+    .p-thiago .card-bar { background: var(--green); }
+
+    .p-thomas .card-avatar { background: rgba(245, 166, 35, 0.15); color: var(--yellow); }
+    .p-thomas .odd-value { color: var(--yellow); }
+    .p-thomas .card-bar { background: var(--yellow); }
+
+    .p-bruno .card-avatar { background: rgba(108, 99, 255, 0.15); color: #a89fff; }
+    .p-bruno .odd-value { color: #a89fff; }
+    .p-bruno .card-bar { background: var(--accent); }
+
+    .p-igor .card-avatar { background: rgba(255, 101, 132, 0.15); color: var(--accent2); }
+    .p-igor .odd-value { color: var(--accent2); }
+    .p-igor .card-bar { background: var(--accent2); }
+
+    /* BET PANEL */
+    .bet-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 32px;
+    }
+
+    .bet-panel h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .bet-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-weight: 600;
+    }
+
+    .bettor-input {
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .bettor-input:focus {
+      border-color: var(--accent);
+    }
+
+    .bettor-input::placeholder {
+      color: var(--muted);
+    }
+
+    .amount-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .quick-amount {
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .quick-amount:hover {
+      border-color: var(--accent);
+      color: #a89fff;
+      background: rgba(108, 99, 255, 0.08);
+    }
+
+    .selected-participant-info {
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .sel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .sel-name {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .sel-odd {
+      margin-left: auto;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .payout-preview {
+      background: rgba(0, 212, 170, 0.06);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .payout-value {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    .btn-bet {
+      background: linear-gradient(135deg, var(--accent), #8b85ff);
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      align-self: flex-end;
+    }
+
+    .btn-bet:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+    }
+
+    .btn-bet:active {
+      transform: translateY(0);
+    }
+
+    .btn-bet:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* BET HISTORY */
+    .history-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .history-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .history-color {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .history-bettor {
+      font-weight: 600;
+      color: var(--text);
+      min-width: 90px;
+    }
+
+    .history-arrow {
+      color: var(--muted);
+    }
+
+    .history-participant {
+      font-weight: 700;
+    }
+
+    .history-amount {
+      margin-left: auto;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .history-odd-snap {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .history-time {
+      color: var(--muted);
+      font-size: 11px;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    .empty-history {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface2);
+      border: 1px solid var(--green);
+      border-radius: 12px;
+      padding: 14px 20px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      z-index: 999;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+      max-width: 320px;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast strong {
+      color: var(--green);
+    }
+
+    /* PIX SECTION */
+    .pix-section {
+      background: var(--surface);
+      border: 1.5px solid rgba(0, 212, 170, 0.3);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .pix-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(0, 212, 170, 0.12);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .pix-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .pix-info {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .pix-info h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .pix-info p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .pix-key-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pix-key-box {
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .btn-pix-copy {
+      background: rgba(0, 212, 170, 0.12);
+      border: 1.5px solid rgba(0, 212, 170, 0.4);
+      border-radius: 10px;
+      padding: 10px 20px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-pix-copy:hover {
+      background: rgba(0, 212, 170, 0.2);
+      box-shadow: 0 4px 16px rgba(0, 212, 170, 0.2);
+    }
+
+    .btn-pix-copy.copied {
+      background: rgba(0, 212, 170, 0.25);
+      border-color: var(--green);
+    }
+
+    .pix-qr-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .pix-qr-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      display: inline-block;
+      line-height: 0;
+    }
+
+    .pix-qr-box canvas, .pix-qr-box img {
+      display: block;
+      border-radius: 4px;
+    }
+
+    .pix-qr-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      header { padding: 14px 18px; }
+      main { padding: 24px 14px; }
+      .event-title { font-size: 20px; }
+      .bet-form { grid-template-columns: 1fr; }
+      .event-stats { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">&#127922;</div>
+    <h1>OdontoBet</h1>
+  </div>
+  <div class="live-badge">
+    <div class="live-dot"></div>
+    AO VIVO
+  </div>
+</header>
+
+<main>
+
+  <!-- EVENT BANNER -->
+  <div class="event-banner">
+    <div class="event-tag">Evento Especial</div>
+    <div class="event-title">Baile do Leão </div>
+    <div class="event-subtitle">Quem vai ficar com mais muie na festa? Aposte no seu favorito e perca dinheiro.</div>
+    <div class="event-stats">
+      <div class="stat">
+        <span class="stat-label">Total Apostado</span>
+        <span class="stat-value" id="totalPool">R$ 0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Apostas Realizadas</span>
+        <span class="stat-value accent" id="totalBets">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Participantes</span>
+        <span class="stat-value accent">4</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTICIPANTS -->
+  <div class="section-label">Escolha seu favorito</div>
+  <div class="participants-grid" id="participantsGrid"></div>
+
+  <!-- BET PANEL -->
+  <div class="bet-panel">
+    <h2>Fazer Aposta</h2>
+
+    <div class="selected-participant-info" id="selInfo" style="display:none">
+      <div class="sel-dot" id="selDot"></div>
+      <span class="sel-name" id="selName">-</span>
+      <span class="sel-odd" id="selOdd">-</span>
+    </div>
+
+    <div class="bet-form">
+      <div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label>Seu nome</label>
+          <input class="bettor-input" id="bettorName" type="text" placeholder="Ex: Maria, Alicia..." maxlength="24" />
+        </div>
+        <div class="form-group">
+          <label>Valor (R$)</label>
+          <input class="bettor-input" id="betAmount" type="number" min="1" max="10000" placeholder="100" />
+          <div class="amount-row">
+            <button class="quick-amount" onclick="setAmount(50)">50</button>
+            <button class="quick-amount" onclick="setAmount(100)">100</button>
+            <button class="quick-amount" onclick="setAmount(250)">250</button>
+            <button class="quick-amount" onclick="setAmount(500)">500</button>
+            <button class="quick-amount" onclick="setAmount(1000)">1000</button>
+          </div>
+        </div>
+        <div class="payout-preview" id="payoutPreview" style="display:none">
+          <span>Retorno potencial</span>
+          <span class="payout-value" id="payoutValue">R$ 0</span>
+        </div>
+      </div>
+      <button class="btn-bet" id="btnBet" onclick="placeBet()" disabled>
+        Apostar
+      </button>
+    </div>
+  </div>
+
+  <!-- PIX -->
+  <div class="pix-section">
+    <div class="pix-icon">
+      <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M112.6 391.1c20.8 0 40.4-8.1 55.1-22.8l83.4-83.4c5.4-5.4 14.8-5.4 20.2 0l83.7 83.7c14.7 14.7 34.3 22.8 55.1 22.8h16.4l-105.6 105.6c-30.4 30.4-79.7 30.4-110.1 0L105.2 391.1h7.4zm287.5-270.2c-20.8 0-40.4 8.1-55.1 22.8l-83.7 83.7c-5.6 5.6-14.6 5.6-20.2 0l-83.4-83.4c-14.7-14.7-34.3-22.8-55.1-22.8h-7.4L200.8 15.6c30.4-30.4 79.7-30.4 110.1 0L416.5 120.9h-16.4z" fill="#00d4aa"/>
+        <path d="M15.6 200.8L66.9 149.5h45.7c14 0 27.4 5.5 37.3 15.3l83.4 83.4c14.9 14.9 38.9 14.9 53.8 0l83.7-83.7c9.9-9.9 23.3-15.3 37.3-15.3h50.7l51.4 51.4c30.4 30.4 30.4 79.7 0 110.1l-51.4 51.4h-50.7c-14 0-27.4-5.5-37.3-15.3l-83.7-83.7c-7.4-7.4-17.2-11.2-27-11.2s-19.5 3.7-27 11.2l-83.4 83.4c-9.9 9.9-23.3 15.3-37.3 15.3H66.9L15.6 310.9c-30.4-30.4-30.4-79.7 0-110.1z" fill="#00d4aa"/>
+      </svg>
+    </div>
+    <div class="pix-info">
+      <h3>Pague via PIX</h3>
+      <p>Copie a chave e pague no seu banco. Coloque seu nome no campo descricao.</p>
+    </div>
+    <div class="pix-key-wrap">
+      <div class="pix-key-box" id="pixKeyDisplay">32988171793</div>
+      <button class="btn-pix-copy" id="btnPixCopy" onclick="copyPix()">Copiar chave</button>
+    </div>
+    <div class="pix-qr-wrap">
+      <div class="pix-qr-box" id="pixQrCode"></div>
+      <span class="pix-qr-label">Escanear para pagar</span>
+    </div>
+  </div>
+
+  <!-- HISTORY -->
+  <div class="history-section">
+    <h2>Historico de Apostas</h2>
+    <div class="history-list" id="historyList">
+      <div class="empty-history" id="emptyHistory">Nenhuma aposta ainda. Seja o primeiro!</div>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ─── STATE ───────────────────────────────────────────────────────────────────
+  const participants = [
+    {
+      id: 'thiago',
+      name: 'Thiago',
+      cssClass: 'p-thiago',
+      color: '#00d4aa',
+      initial: 1.55,
+      weight: 100,   // initial implied pool weight
+    },
+    {
+      id: 'thomas',
+      name: 'Thomas',
+      cssClass: 'p-thomas',
+      color: '#f5a623',
+      initial: 1.80,
+      weight: 80,
+    },
+    {
+      id: 'bruno',
+      name: 'Bruno',
+      cssClass: 'p-bruno',
+      color: '#a89fff',
+      initial: 2.40,
+      weight: 55,
+    },
+    {
+      id: 'igor',
+      name: 'Igor',
+      cssClass: 'p-igor',
+      color: '#ff6584',
+      initial: 3.10,
+      weight: 40,
+    },
+  ];
+
+  let selectedId = null;
+  const betHistory = [];
+
+  // ─── ODDS CALCULATION ────────────────────────────────────────────────────────
+  // Odds are computed from the simulated pool (initial weights + actual bets)
+  // House margin: 8%
+  const MARGIN = 0.08;
+
+  function getPool(p) {
+    return p.weight + (p.totalBet || 0);
+  }
+
+  function computeOdds() {
+    const total = participants.reduce((s, p) => s + getPool(p), 0);
+    participants.forEach(p => {
+      const impliedProb = getPool(p) / total;
+      // Raw fair odd = 1/prob, apply margin (reduce payout)
+      const rawOdd = 1 / impliedProb;
+      p.odd = +(rawOdd * (1 - MARGIN)).toFixed(2);
+      p.share = +(impliedProb * 100).toFixed(1);
+    });
+  }
+
+  // ─── RENDER ──────────────────────────────────────────────────────────────────
+  function renderCards() {
+    computeOdds();
+    const grid = document.getElementById('participantsGrid');
+    grid.innerHTML = '';
+
+    // Sort by share descending for bar display
+    const maxShare = Math.max(...participants.map(p => p.share));
+
+    participants.forEach(p => {
+      const isSelected = p.id === selectedId;
+      const card = document.createElement('div');
+      card.className = `participant-card ${p.cssClass}${isSelected ? ' selected' : ''}`;
+      card.setAttribute('data-id', p.id);
+      card.onclick = () => selectParticipant(p.id);
+
+      const initials = p.name[0].toUpperCase();
+      const barWidth = ((p.share / maxShare) * 100).toFixed(1);
+
+      card.innerHTML = `
+        <div class="card-avatar">${initials}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-role">Participante</div>
+        <div class="card-odd">
+          <span class="odd-label">ODD</span>
+          &nbsp;
+          <span class="odd-value">${p.odd.toFixed(2)}x</span>
+        </div>
+        <div class="card-bar-wrap">
+          <div class="card-bar" style="width:${barWidth}%"></div>
+        </div>
+        <div class="card-share">Apostas: <span>${p.share}%</span> do pool</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function selectParticipant(id) {
+    selectedId = id;
+    renderCards();
+    updateSelInfo();
+    updatePayout();
+    validateBet();
+  }
+
+  function updateSelInfo() {
+    const p = participants.find(x => x.id === selectedId);
+    if (!p) return;
+    document.getElementById('selInfo').style.display = 'flex';
+    document.getElementById('selDot').style.background = p.color;
+    document.getElementById('selName').textContent = `Apostando em: ${p.name}`;
+    document.getElementById('selOdd').textContent = `${p.odd.toFixed(2)}x`;
+    document.getElementById('selOdd').style.color = p.color;
+  }
+
+  function updatePayout() {
+    const p = participants.find(x => x.id === selectedId);
+    const amount = parseFloat(document.getElementById('betAmount').value);
+    const preview = document.getElementById('payoutPreview');
+    if (p && amount > 0) {
+      preview.style.display = 'flex';
+      document.getElementById('payoutValue').textContent =
+        `R$ ${(amount * p.odd).toFixed(2).replace('.',',')}`;
+
+    } else {
+      preview.style.display = 'none';
+    }
+  }
+
+  function setAmount(v) {
+    document.getElementById('betAmount').value = v;
+    updatePayout();
+    validateBet();
+  }
+
+  function validateBet() {
+    const name = document.getElementById('bettorName').value.trim();
+    const amount = parseFloat(document.getElementById('betAmount').value);
+    const ok = selectedId && name.length >= 2 && amount >= 1 && amount <= 10000;
+    document.getElementById('btnBet').disabled = !ok;
+  }
+
+  // ─── PLACE BET ───────────────────────────────────────────────────────────────
+  function placeBet() {
+    const name = document.getElementById('bettorName').value.trim();
+    const amount = parseFloat(document.getElementById('betAmount').value);
+    const p = participants.find(x => x.id === selectedId);
+    if (!p || !name || !amount) return;
+
+    // Snapshot odd before mutation
+    const oddSnap = p.odd;
+
+    // Update pool
+    p.totalBet = (p.totalBet || 0) + amount;
+
+    // Record history
+    betHistory.unshift({
+      bettor: name,
+      participant: p,
+      amount,
+      odd: oddSnap,
+      time: new Date(),
+    });
+
+    // Recompute odds
+    computeOdds();
+
+    // Update totals
+    const totalPool = participants.reduce((s, x) => s + (x.totalBet || 0), 0);
+    document.getElementById('totalPool').textContent = `R$ ${totalPool.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+    document.getElementById('totalBets').textContent = betHistory.length;
+
+    renderCards();
+    updateSelInfo();
+    renderHistory();
+    showToast(name, p.name, amount, oddSnap);
+
+    // Reset form
+    document.getElementById('betAmount').value = '';
+    document.getElementById('payoutPreview').style.display = 'none';
+    document.getElementById('btnBet').disabled = true;
+  }
+
+  // ─── HISTORY ─────────────────────────────────────────────────────────────────
+  function renderHistory() {
+    const list = document.getElementById('historyList');
+    const empty = document.getElementById('emptyHistory');
+
+    if (betHistory.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    list.innerHTML = '';
+    betHistory.slice(0, 30).forEach(b => {
+      const el = document.createElement('div');
+      el.className = 'history-item';
+      const mins = Math.floor((Date.now() - b.time) / 60000);
+      const timeStr = mins === 0 ? 'agora' : `${mins}m`;
+      el.innerHTML = `
+        <div class="history-color" style="background:${b.participant.color}"></div>
+        <span class="history-bettor">${b.bettor}</span>
+        <span class="history-arrow">apostou em</span>
+        <span class="history-participant" style="color:${b.participant.color}">${b.participant.name}</span>
+        <span class="history-odd-snap">@ ${b.odd.toFixed(2)}x</span>
+        <span class="history-amount">+R$ ${b.amount.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+        <span class="history-time">${timeStr}</span>
+      `;
+      list.appendChild(el);
+    });
+  }
+
+  // ─── TOAST ───────────────────────────────────────────────────────────────────
+  function showToast(bettor, participant, amount, odd) {
+    const t = document.getElementById('toast');
+    const payout = (amount * odd).toFixed(0);
+    t.innerHTML = `<strong>Aposta registrada!</strong><br>${bettor} apostou R$ ${Number(amount).toLocaleString('pt-BR',{minimumFractionDigits:2})} em ${participant} @ ${odd.toFixed(2)}x &mdash; retorno potencial: R$ ${Number(payout).toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+
+  // ─── PIX QR CODE ─────────────────────────────────────────────────────────────
+  function crc16(str) {
+    let crc = 0xFFFF;
+    for (let i = 0; i < str.length; i++) {
+      crc ^= str.charCodeAt(i) << 8;
+      for (let j = 0; j < 8; j++) {
+        crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) : (crc << 1);
+      }
+    }
+    return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+  }
+
+  function buildPixPayload(key) {
+    const tlv = (tag, val) => `${tag}${String(val.length).padStart(2, '0')}${val}`;
+    const mai = tlv('26', tlv('00', 'BR.GOV.BCB.PIX') + tlv('01', key));
+    const adf = tlv('62', tlv('05', '***'));
+    const body = tlv('00','01') + mai + tlv('52','0000') + tlv('53','986') +
+                 tlv('58','BR') + tlv('59','OdontoBet') + tlv('60','Brasil') + adf + '6304';
+    return body + crc16(body);
+  }
+
+  function generatePixQr() {
+    const payload = buildPixPayload('32988171793');
+    new QRCode(document.getElementById('pixQrCode'), {
+      text: payload,
+      width: 140,
+      height: 140,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M,
+    });
+  }
+
+  // ─── INIT ────────────────────────────────────────────────────────────────────
+  function copyPix() {
+    const key = '32988171793';
+    navigator.clipboard.writeText(key).then(() => {
+      const btn = document.getElementById('btnPixCopy');
+      btn.textContent = 'Copiado!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copiar chave';
+        btn.classList.remove('copied');
+      }, 2500);
+    });
+  }
+
+  document.getElementById('bettorName').addEventListener('input', validateBet);
+  document.getElementById('betAmount').addEventListener('input', () => { updatePayout(); validateBet(); });
+
+  computeOdds();
+  renderCards();
+  generatePixQr();
+</script>
+
+</body>
+</html>
