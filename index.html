@@ -766,11 +766,11 @@
           <label>Valor (R$)</label>
           <input class="bettor-input" id="betAmount" type="number" min="1" max="10000" placeholder="100" />
           <div class="amount-row">
-            <button class="quick-amount" onclick="setAmount(50)">50</button>
-            <button class="quick-amount" onclick="setAmount(100)">100</button>
-            <button class="quick-amount" onclick="setAmount(250)">250</button>
-            <button class="quick-amount" onclick="setAmount(500)">500</button>
-            <button class="quick-amount" onclick="setAmount(1000)">1000</button>
+            <button type="button" class="quick-amount" onclick="setAmount(50)">50</button>
+            <button type="button" class="quick-amount" onclick="setAmount(100)">100</button>
+            <button type="button" class="quick-amount" onclick="setAmount(250)">250</button>
+            <button type="button" class="quick-amount" onclick="setAmount(500)">500</button>
+            <button type="button" class="quick-amount" onclick="setAmount(1000)">1000</button>
           </div>
         </div>
         <div class="payout-preview" id="payoutPreview" style="display:none">
@@ -778,7 +778,7 @@
           <span class="payout-value" id="payoutValue">R$ 0</span>
         </div>
       </div>
-      <button class="btn-bet" id="btnBet" onclick="placeBet()" disabled>
+      <button type="button" class="btn-bet" id="btnBet" onclick="placeBet()" disabled>
         Apostar
       </button>
     </div>
@@ -798,7 +798,7 @@
     </div>
     <div class="pix-key-wrap">
       <div class="pix-key-box" id="pixKeyDisplay">32988171793</div>
-      <button class="btn-pix-copy" id="btnPixCopy" onclick="copyPix()">Copiar chave</button>
+      <button type="button" class="btn-pix-copy" id="btnPixCopy" onclick="copyPix()">Copiar chave</button>
     </div>
     <div class="pix-qr-wrap">
       <div class="pix-qr-box" id="pixQrCode"></div>
@@ -1062,15 +1062,20 @@
   }
 
   function generatePixQr() {
-    const payload = buildPixPayload('32988171793');
-    new QRCode(document.getElementById('pixQrCode'), {
-      text: payload,
-      width: 140,
-      height: 140,
-      colorDark: '#000000',
-      colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.M,
-    });
+    try {
+      const payload = buildPixPayload('32988171793');
+      new QRCode(document.getElementById('pixQrCode'), {
+        text: payload,
+        width: 140,
+        height: 140,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M,
+      });
+    } catch(e) {
+      document.getElementById('pixQrCode').innerHTML =
+        '<span style="font-size:11px;color:#7a7a99;padding:10px;display:block;text-align:center">QR indisponível</span>';
+    }
   }
 
   // ─── INIT ────────────────────────────────────────────────────────────────────
